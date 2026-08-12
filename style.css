@@ -51,6 +51,10 @@ body {
     padding: 20px;
 }
 
+.main-lists {
+    flex: 1;
+}
+
 .todo {
     display: flex;
     flex-direction: column;
@@ -112,6 +116,7 @@ body {
 .save-btn{
     border: none;
     padding: 10px;
+    margin-top: 10px;
     font-size: 22px;
     border-radius: 10px;
     transform: translateY(0);
@@ -138,4 +143,19 @@ body {
     transform: translateY(-5%);
     transition: transform 0.3s;
     background-color: rgb(209, 36, 71);
+}
+
+.instructs{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    padding-right: 40px;
+    padding-left: 40px;
+}
+
+.instructs p{
+    font-size: 18px;
+    color: rgb(80, 80, 80);
 }

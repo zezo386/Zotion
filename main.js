@@ -37,7 +37,7 @@ async function get_todo_lists(todo_id){
                 todoDiv.innerHTML = `
                     <input type='text' id='todo-title' class='todo-title' placeholder='Title'>
                     <div contenteditable="true" id='todo-content' class='todo-content' placeholder='todo: eat breakfast'></div>
-                    <button onclick='addTodo()' class='save-btn'>save</button>
+                    <button onclick='addTodo(${todo_id})' class='save-btn'>save</button>
                 `;
                 todolist.appendChild(todoDiv);
                 return;
@@ -74,6 +74,10 @@ function parseContent(content){
     if (!content) return '';
 
     let result = content;
+    
+    result = result.replace(/\r?\n/g,"<br>")
+
+    console.log(result);
 
     result = result.replace(/\[\/\]/g,"<input type='checkbox' checked>");
     result = result.replace(/\[\s\]/g,"<input type='checkbox'>");
@@ -109,7 +113,7 @@ function direct(id){
     window.location.href = window.location.origin + window.location.pathname + id ? `?id=${id}`: "";
 }
 
-async function addTodo(){
+async function addTodo(id){
     let title = document.getElementById("todo-title").value;
     let content = document.getElementById("todo-content").innerHTML;
     let token = localStorage.getItem("jwtToken");
@@ -129,6 +133,7 @@ async function addTodo(){
         if (!request.ok){
             throw new Error(data.detail);
         }
+        direct(id);
     }
     catch(e){
         console.log(e);
@@ -156,6 +161,7 @@ async function editTodo(id){
         if (!request.ok){
             throw new Error(data.detail);
         }
+        direct(id);
     }
     catch(e){
         console.log(e)
@@ -186,13 +192,10 @@ async function deleteTodo(id){
     }
 }
 
-function checkJwt(){
-
-}
-
 document.addEventListener("DOMContentLoaded", async (e) => {
     if (!localStorage.getItem("jwtToken")){
         localStorage.clear();
+        window.location.href = "login.html";
     }
     let urlParams = new URLSearchParams(window.location.search);
 
