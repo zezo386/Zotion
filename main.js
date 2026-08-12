@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000/" 
+const API_URL = "https://zotion-backend-production.up.railway.app/" 
 
 let navLists = document.getElementById("side-bar-lists");
 let todolist = document.getElementById("main-lists");
@@ -51,6 +51,7 @@ async function get_todo_lists(todo_id){
                         <input type='text' id='todo-title' class='todo-title' placeholder='Title' value='${todo.title}'>
                         <div contenteditable="true" id='todo-content' class='todo-content' placeholder='todo: eat breakfast'>${parsedHtml}</div>
                         <button onclick='editTodo(${todo.id})' class='save-btn'>save</button>
+                        <button onclick='deleteTodo(${todo.id})' class='delete-btn'>Delete</button>
                     `;
 
                     todolist.appendChild(todoDiv);
@@ -105,7 +106,7 @@ function parseHTML(Html){
 }
 
 function direct(id){
-    window.location.href = window.location.origin + window.location.pathname + `?id=${id}`;
+    window.location.href = window.location.origin + window.location.pathname + id ? `?id=${id}`: "";
 }
 
 async function addTodo(){
@@ -161,7 +162,38 @@ async function editTodo(id){
     }
 }
 
+async function deleteTodo(id){
+    let token = localStorage.getItem("jwtToken");
+    try {
+        let request = await fetch(API_URL+"delete_todo",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                token:token,
+                id:id
+            })
+        })
+        let data = await request.json();
+        if (!request.ok){
+            throw new Error(data.detail);
+        }
+        direct("");
+    }
+    catch(e){
+        console.log(e)
+    }
+}
+
+function checkJwt(){
+
+}
+
 document.addEventListener("DOMContentLoaded", async (e) => {
+    if (!localStorage.getItem("jwtToken")){
+        localStorage.clear();
+    }
     let urlParams = new URLSearchParams(window.location.search);
 
     let id = urlParams.get("id");

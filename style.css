@@ -114,4 +114,28 @@ body {
     padding: 10px;
     font-size: 22px;
     border-radius: 10px;
+    transform: translateY(0);
+    transition: transform 0.3s;
+}
+
+.save-btn:hover{
+    transform: translateY(-5%);
+    transition: transform 0.3s
+}
+
+.delete-btn {
+    border: none;
+    padding: 10px;
+    font-size: 22px;
+    border-radius: 10px;
+    margin-top: 50px;
+    background-color: crimson;
+    transform: translateY(0);
+    transition: transform 0.3s;
+}
+
+.delete-btn:hover{
+    transform: translateY(-5%);
+    transition: transform 0.3s;
+    background-color: rgb(209, 36, 71);
 }
